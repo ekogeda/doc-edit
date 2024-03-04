@@ -4,4 +4,4 @@
   status = 200
 
 [context.production.environment]
-  VUE_APP_API_LIVE=https://dev-api.gettonote.com/api/v1/
+  VUE_APP_API_LIVE="https://dev-api.gettonote.com/api/v1/"
