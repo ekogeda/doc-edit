@@ -212,7 +212,7 @@
                         <a v-if="isOwner && canCancel" class="dropdown-item" role="button" @click="cancel">
                           <Icon icon="iconoir:cancel" class="text-danger" />&nbsp; Cancel
                         </a>
-                        <router-link v-if="type != 'lg'" :to="{ name: 'Dashboard', query: { status: 'new' } }"
+                        <router-link v-if="type != 'lg'" :to="{ name: 'document.upload' }"
                           class="dropdown-item" role="button">
                           <Icon icon="charm:chevron-left" class="text-primary" />&nbsp; Back
                         </router-link>
@@ -348,7 +348,7 @@
           {{ userDocument.title }}
         </p>
 
-        <a :href="redirectToUserDashboard + '/redirecting?qt=' + token" class="btn btn-primary">Dashboard</a>
+        <a href="/" class="btn btn-primary">Upload</a>
       </div>
     </template>
   </ModalComp>
@@ -711,11 +711,7 @@ import { useGetters, useActions } from "vuex-composition-helpers/dist";
 import { useRouter } from "vue-router";
 import { dashboard } from "@/store/dashboard";
 import { useBreakpointsComposable } from "@/composables/useBreakpoints";
-import { useMixpanelComposable } from "@/composables/useMixpanel";
 const { type } = useBreakpointsComposable();
-const { mixpanelEvent } = useMixpanelComposable();
-import { envFunction } from '@/utils';
-const currentEnv = envFunction();
 
 const route = useRouter();
 
@@ -909,20 +905,8 @@ const open = (params) => (isOpen.value = params);
 const cancel = () => (cancelModal.value = true);
 
 const deletePermanently = () => {
-  const payload = {
-    document_id: uri.value,
-    user_id: profile.value.id,
-    user_full_name: `${profile.value.first_name} ${profile.value.last_name}`,
-    document_title: userDocument.value?.title,
-    entry_point: userDocument.value?.entry_point,
-    is_the_owner_of_document: userDocument.value?.is_the_owner_of_document,
-    hasEnv: !currentEnv,
-  };
-
-  mixpanelEvent("Cancel button clicked", payload);
-
   removeDocument({ documents: [{ document_id: uri.value, permanent_delete: true }] });
-  route.push({ name: "Dashboard" });
+  route.push({ name: "document.upload" });
 };
 
 const getDocId = (params) => (pageId.value = params);
@@ -949,7 +933,7 @@ const confirmEdit = () => {
 
 const skipFeedback = () => {
   removeNotification(false);
-  route.push({ name: "Dashboard", query: { status: "sent" } });
+  route.push({ name: "document.upload" });
 };
 
 const openComment = ref(false);
@@ -999,21 +983,6 @@ onMounted(() => {
 
   uri.value = route.currentRoute.value.params.document_id;
 
-  setTimeout(() => {
-    if (userDocument.value.title != undefined) {
-      const payload = {
-        document_id: uri.value,
-        user_id: profile.value.id,
-        user_full_name: `${profile.value.first_name} ${profile.value.last_name}`,
-        document_title: userDocument.value?.title,
-        entry_point: userDocument.value?.entry_point,
-        is_the_owner_of_document: userDocument.value?.is_the_owner_of_document,
-        hasEnv: !currentEnv,
-      };
-
-      mixpanelEvent("Users entering doc edit mode", payload);
-    }
-  }, 5000);
 
   if (token.value == null) return;
   if (token.value != "" || token.value != null) {
