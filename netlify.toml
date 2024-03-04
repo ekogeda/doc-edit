@@ -1,0 +1,7 @@
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[context.production.environment]
+  VUE_APP_API_LIVE="https://dev.gettonote.com/api/v1/"
