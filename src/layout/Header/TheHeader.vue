@@ -2,6 +2,7 @@
   <nav
     v-if="
       $route.name == 'document.upload' ||
+      $route.name == 'document.audit' ||
       (type != 'xs' && (isVerifyPage || dashboard.token != null || token != null))
     "
     style="height: 70px"

@@ -12,15 +12,12 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a :href="redirectToUserDashboard + '/redirecting?qt=' + hasToken">
+              <a href="!#">
                 <Icon icon="ri:home-6-line" style="font-size: 1.5rem" />
               </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-              <router-link
-                :to="{ name: 'Dashboard', query: { status: dashboard.status } }"
-                role="button"
-              >
+              <router-link :to="{ name: 'document.upload' }" role="button">
                 E-Sign
               </router-link>
             </li>
@@ -223,16 +220,12 @@ const { token, isLoading } = useGetters({
   isLoading: "document/isLoading",
 });
 
-const { setAuthForDocumentUpload, fileUploads, getUserPrints, removeLoader } = useActions(
-  {
-    setAuthForDocumentUpload: "auth/setAuthForDocumentUpload",
-    fileUploads: "document/fileUploads",
-    getUserPrints: "print/getUserPrints",
-    removeLoader: "document/removeLoader",
-  }
-);
+const { fileUploads, getUserPrints, removeLoader } = useActions({
+  fileUploads: "document/fileUploads",
+  getUserPrints: "print/getUserPrints",
+  removeLoader: "document/removeLoader",
+});
 
-const redirectToUserDashboard = ref("");
 const initialUpload = ref(false);
 const isSubmitted = ref(false);
 const isSelected = ref(false);
@@ -343,18 +336,14 @@ onMounted(() => {
   hasToken.value =
     uri.value.qt != undefined || uri.value.qt != null ? uri.value.qt : token.value;
 
-  const AUTH_URL = process.env.VUE_APP_URL_AUTH_LIVE;
-  redirectToUserDashboard.value = AUTH_URL;
-
   if (hasToken.value == undefined || hasToken.value == "" || hasToken.value == null) {
-    return (window.location.href = AUTH_URL);
+    return;
   }
 
   dashboard.value.setToken(hasToken.value);
 
   getUserPrints(hasToken.value);
 
-  setAuthForDocumentUpload(hasToken.value);
   loadingAuth.value = false;
 });
 </script>

@@ -165,7 +165,6 @@ export const loginUser = ({ commit }, formData) => {
 
 			User.show().then((response) => {
 				commit('SET_USER_PROFILE', response.data.data);
-				console.log('SET_USER_PROFILE', response.data.data);
 				router.push({ name: 'document.upload' });
 
 				toast.success(`Welcome ${response.data.data.first_name} `, {

@@ -54,7 +54,7 @@ import TheFooter from "@/layout/Footer/TheFooter.vue";
 
 @media screen and (max-width: 800px) {
   html [data-col='1-column'].horizontal-layout .app-content {
-    padding: calc(2rem + 3.45rem + 1.3rem) 1rem 0 !important;
+    padding: calc(2rem + 6.45rem + 1.3rem) 1rem 0 !important;
   }
 }
 </style>
