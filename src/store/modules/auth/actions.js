@@ -3,8 +3,6 @@ import router from '@/router/router';
 import { useToast } from 'vue-toast-notification';
 const toast = useToast();
 
-const AUTH_URL = process.env.VUE_APP_URL_AUTH_LIVE;
-
 export const clearStore = ({ commit }) => {
 	commit('SET_TOKEN', null);
 	window.localStorage.removeItem(JSON.stringify('vuex'));
@@ -16,11 +14,7 @@ export const logoutUser = ({ commit }, formData) => {
 			commit('SET_TOKEN', null);
 			window.localStorage.removeItem(JSON.stringify('vuex'));
 
-			if (process.env.NODE_ENV == 'development') {
-				router.push({ name: 'Login' });
-			} else {
-				window.location.href = AUTH_URL + '/redirecting?action=logout';
-			}
+			router.push({ name: 'Login' });
 		})
 		.catch((error) => {
 			if (error.response.status === 401 || error.response.status == 422) {
@@ -98,7 +92,7 @@ export const resetPassword = ({ commit }, formData) => {
 			setTimeout(() => {
 				commit('SET_TOKEN', null);
 				window.localStorage.removeItem(JSON.stringify('vuex'));
-				window.location.href = AUTH_URL + '/redirecting?action=logout';
+				router.push({ name: 'Login' });
 			}, 2000);
 		})
 		.catch((error) => {
@@ -143,7 +137,7 @@ export const setAuthentication = ({ commit }, data) => {
 		})
 		.catch((error) => {
 			if (error.response.status == 401 || error.response.status == 404) {
-				window.location.href = AUTH_URL;
+				router.push({ name: 'Login' });
 			}
 		});
 };
@@ -183,4 +177,6 @@ export const loginUser = ({ commit }, formData) => {
 			}
 		});
 };
+
+
 
