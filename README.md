@@ -1,4 +1,4 @@
-# tonote-doc-edit
+# doc-edit
 
 ## Project setup
 ```
