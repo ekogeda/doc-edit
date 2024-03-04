@@ -302,12 +302,6 @@ onMounted(() => {
   setTimeout(() => {
     isLoading.value = false;
   }, 1000);
-
-  setTimeout(() => {
-    if (window.Tawk_API) {
-      window.Tawk_API.hideWidget();
-    }
-  }, 2000);
 });
 </script>
 

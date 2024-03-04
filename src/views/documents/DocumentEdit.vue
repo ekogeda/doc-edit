@@ -1021,10 +1021,6 @@ onMounted(() => {
     dashboard.value.setToken(token.value);
     getUserPrints(token.value);
   }
-
-  setTimeout(() => {
-    if (window.Tawk_API) window.Tawk_API.hideWidget();
-  }, 2000);
 });
 
 onUnmounted(() => {
