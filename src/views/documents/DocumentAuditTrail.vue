@@ -11,7 +11,7 @@
               <PuSkeleton v-if="isDocLoading" width="140px" height="30px" />
               <template v-else>
                 <a
-                  v-if="hasNFT != ''"
+                  v-if="hasNFT != '' || hasNFT != null"
                   :href="`https://xray.helius.xyz/token/${hasNFT}?network=devnet`"
                   class="btn btn-sm btn-primary me-1"
                 >
