@@ -102,9 +102,12 @@
             </template>
             <template v-else>
               <div class="user-nav d-lg-flex">
-                <span class="user-name fw-normal text-darker text-capitalize">{{
-                  fullName
-                }}</span>
+                <span
+                  class="user-name fw-normal text-darker text-capitalize"
+                  :style="{ fontSize: type == 'xs' ? '12px' : '' }"
+                >
+                  {{ fullName }}
+                </span>
                 <span v-show="planned" class="user-status text-darker text-capitalize"
                   >{{ planned }} plan</span
                 >
