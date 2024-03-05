@@ -10,24 +10,20 @@
             <div class="m-0">
               <PuSkeleton v-if="isDocLoading" width="140px" height="30px" />
               <template v-else>
+                <a
+                  v-if="hasNFT != ''"
+                  :href="`https://xray.helius.xyz/token/${hasNFT}?network=devnet`"
+                  class="btn btn-sm btn-primary me-1"
+                >
+                  Scan NFT &rarr;
+                </a>
                 <router-link
+                  v-else
                   :to="{ name: 'document.upload' }"
                   class="btn btn-sm btn-secondary me-1"
                 >
                   &larr; Go back
-                  <span class="d-none d-lg-inline-block">to document upload</span>
                 </router-link>
-                <router-link
-                  v-if="
-                    userDocument.entry_point == 'Docs' &&
-                    !['Completed', 'Declined'].includes(userDocument.status) &&
-                    userDocument.allowed_seal_per_unit == null
-                  "
-                  :to="{ name: 'document.edit', params: { document_id: uri } }"
-                  class="btn btn-sm btn-primary"
-                >
-                  Edit</router-link
-                >
               </template>
             </div>
             <div class="d-action">
@@ -64,55 +60,49 @@
                   class="user-details d-flex justify-content-between align-items-center flex-wrap"
                 >
                   <div class="mail-items">
-                    <h5 class="text-capitalize mb-0">
-                      <template v-if="!theDoc">
-                        <span>
-                          <span class="spinner-border spinner-border-sm"></span>
-                          Loading...
+                    <h5
+                      class="text-capitalize mb-0"
+                      :style="{ fontSize: type == 'xs' ? '10px' : '' }"
+                    >
+                      <PuSkeleton v-if="isDocLoading" width="120px" height="20px" />
+                      <template v-else> Document ID: {{ theDoc.id }} </template>
+                    </h5>
+                    <h5
+                      class="text-capitalize mb-0"
+                      :style="{ fontSize: type == 'xs' ? '10px' : '' }"
+                    >
+                      <PuSkeleton v-if="isDocLoading" width="120px" height="20px" />
+                      <template v-else> Title: {{ theDoc.title }} </template>
+                    </h5>
+                    <h5
+                      class="text-capitalize mb-0"
+                      :style="{ fontSize: type == 'xs' ? '10px' : '' }"
+                    >
+                      <PuSkeleton v-if="isDocLoading" width="120px" height="20px" />
+                      <template v-else>
+                        Participants:
+                        <span
+                          v-for="(participant, index) in theDoc.participants"
+                          :key="index"
+                          style="color: #003bb3"
+                        >
+                          {{
+                            participant.user.first_name +
+                            (index < theDoc.participants.length - 1 ? ", " : "")
+                          }}
                         </span>
                       </template>
+                    </h5>
+                    <h5
+                      class="text-capitalize mb-0"
+                      :style="{ fontSize: type == 'xs' ? '10px' : '' }"
+                    >
+                      <PuSkeleton v-if="isDocLoading" width="120px" height="20px" />
                       <template v-else>
-                        {{ theDoc.title }}
+                        Create at: {{ createdAt(theDoc.created_at) }}
                       </template>
                     </h5>
-
-                    <div class="email-info-dropup dropdown">
-                      <span role="button" class="font-small-3">
-                        Participants:
-                        <template v-if="!theDoc">
-                          <span>
-                            <span class="spinner-border spinner-border-sm"></span>
-                            Loading...
-                          </span>
-                        </template>
-                        <template v-else>
-                          <span
-                            v-for="(participant, index) in theDoc.participants"
-                            :key="index"
-                            style="color: #003bb3"
-                          >
-                            {{
-                              participant.user.first_name +
-                              (index < theDoc.participants.length - 1 ? ", " : "")
-                            }}
-                          </span>
-                        </template>
-                      </span>
-                    </div>
                   </div>
-                </div>
-                <div class="mail-meta-item d-flex align-items-center">
-                  <template v-if="!theDoc">
-                    <span>
-                      <span class="spinner-border spinner-border-sm"></span>
-                      Loading...
-                    </span>
-                  </template>
-                  <template v-else>
-                    <small class="mail-date-time text-dark fw-normal">
-                      {{ createdAt(theDoc.created_at) }}</small
-                    >
-                  </template>
                 </div>
               </div>
 
@@ -224,6 +214,8 @@ import moment from "moment";
 import { useActions, useGetters } from "vuex-composition-helpers/dist";
 import { useRouter } from "vue-router";
 import RenderPage from "@/components/Document/Edit/Main/RenderPage.vue";
+import { useBreakpointsComposable } from "@/composables/useBreakpoints";
+const { type } = useBreakpointsComposable();
 
 const route = useRouter();
 
@@ -269,10 +261,15 @@ const sortedFile = computed(() => {
   return userDocument.value.completed_file_request;
 });
 
+const hasNFT = ref("");
+
 watch(
   () => [userDocument.value, isDocLoading.value],
   ([newUserDoc, newDocLoaded], [oldUserDoc, oldDocLoaded]) => {
-    if (newUserDoc != oldUserDoc) theDoc.value = newUserDoc;
+    if (newUserDoc != oldUserDoc) {
+      hasNFT.value = newUserDoc.nft_blockchain_metadata;
+      theDoc.value = newUserDoc;
+    }
 
     if (newDocLoaded != oldDocLoaded) allLoaded.value = newDocLoaded;
   }

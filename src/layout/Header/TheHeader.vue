@@ -15,12 +15,20 @@
         <li class="nav-item">
           <template v-if="role != 'Viewer'">
             <router-link :to="{ name: 'document.upload' }" class="navbar-brand me-0">
-              <img src="@/assets/logo-dark.png" alt="ToNote" height="26" />
+              <img
+                src="https://skoutwatch.com/static/media/logo.1af99f8777344173aa7f.png"
+                alt="Sky"
+                height="26"
+              />
             </router-link>
           </template>
           <template v-else>
             <a href="#!" class="navbar-brand me-0">
-              <img src="@/assets/logo-dark.png" alt="ToNote" height="26" />
+              <img
+                src="https://skoutwatch.com/static/media/logo.1af99f8777344173aa7f.png"
+                alt="Sky"
+                height="26"
+              />
             </a>
           </template>
         </li>
@@ -59,13 +67,21 @@
 
       <div class="d-lg-none d-md-block text-center">
         <template v-if="role != 'Viewer'">
-          <router-link :to="{ name: 'Dashboard' }" class="navbar-brand me-0">
-            <img src="@/assets/logo-dark.png" alt="ToNote" height="20" />
+          <router-link :to="{ name: 'document.upload' }" class="navbar-brand me-0">
+            <img
+              src="https://skoutwatch.com/static/media/logo.1af99f8777344173aa7f.png"
+              alt="Sky"
+              height="20"
+            />
           </router-link>
         </template>
         <template v-else>
           <a href="#!" class="navbar-brand me-0">
-            <img src="@/assets/logo-dark.png" alt="ToNote" height="20" />
+            <img
+              src="https://skoutwatch.com/static/media/logo.1af99f8777344173aa7f.png"
+              alt="Sky"
+              height="20"
+            />
           </a>
         </template>
       </div>
