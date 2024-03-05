@@ -5,7 +5,7 @@
   <div v-else class="custom-mt">
     <div class="row">
       <div class="col-12 col-lg-10 col-md-12 col-sm-12 mx-auto">
-        <div class="card p-2">
+        <div class="card p-1">
           <div class="d-flex justify-content-between align-items-center">
             <div class="m-0">
               <PuSkeleton v-if="isDocLoading" width="140px" height="30px" />
@@ -342,7 +342,7 @@ onMounted(() => {
 
 .custom-mt {
   margin-top: -15px !important;
-  min-width: 390px;
+  min-width: 100%;
 }
 
 .btn-outline-primary:hover:not(.disabled):not(:disabled) {
