@@ -167,7 +167,7 @@
                   <img
                     src="https://skoutwatch.com/static/media/logo.1af99f8777344173aa7f.png"
                     height="15"
-                    alt="ToNote Brand"
+                    alt="SkoutWatch Brand"
                   />
                 </div>
               </div>
