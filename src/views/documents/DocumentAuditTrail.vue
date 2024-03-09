@@ -10,7 +10,7 @@
             <div class="m-0">
               <PuSkeleton v-if="isDocLoading" width="140px" height="30px" />
               <template v-else>
-                <button @click="checkNFT" class="btn btn-sm btn-primary me-1">
+                <button @click="checkNFT" class="btn btn-primary me-1">
                   Scan NFT &rarr;
                 </button>
               </template>
@@ -19,7 +19,7 @@
               <PuSkeleton v-if="isDocLoading" width="140px" height="30px" />
               <template v-else>
                 <button
-                  class="btn btn-sm btn-outline-primary waves-effect"
+                  class="btn btn-outline-primary waves-effect"
                   @click="useDownloadPDFFromServer(sortedFile, userDocument.title)"
                 >
                   Download
@@ -92,10 +92,10 @@
                       </template>
                     </p>
 
-                    <!-- <div class="alert alert-danger p-1">
+                    <div v-if="waitForMintAddress" class="alert alert-danger p-1">
                       The NFT Information of the document is still in process. Please try
                       again in a minute.
-                    </div> -->
+                    </div>
                   </div>
                 </div>
               </div>
@@ -164,7 +164,11 @@
                 </template>
 
                 <div class="d-flex justify-content-end mt-4">
-                  <img src="@/assets/logo-dark.png" height="15" alt="ToNote Brand" />
+                  <img
+                    src="https://skoutwatch.com/static/media/logo.1af99f8777344173aa7f.png"
+                    height="15"
+                    alt="ToNote Brand"
+                  />
                 </div>
               </div>
             </div>
@@ -235,6 +239,7 @@ const loading = ref(false);
 const isLoading = ref(true);
 const uri = ref("");
 const theDoc = ref("");
+const waitForMintAddress = ref(false);
 
 const audited = ref([]);
 const audit = computed(() => {
@@ -305,13 +310,18 @@ async function fetchDocumentNFTMetadata(id) {
     console.log(data.mintAddress);
 
     // Open the URL in a new tab
-    window.open(`https://xray.helius.xyz/token/${mintAddress.value}?network=devnet`, '_blank');
-
+    if (data.mintAddress != "") {
+      window.open(
+        `https://xray.helius.xyz/token/${mintAddress.value}?network=devnet`,
+        "_blank"
+      );
+    } else {
+      waitForMintAddress.value = true;
+    }
   } catch (error) {
     console.error("Error:", error);
   }
 }
-
 
 const confirmEdit = () => {
   loading.value = true;
@@ -329,6 +339,7 @@ const createdAt = (dateParams) => {
 const env = ref(false);
 onMounted(() => {
   env.value = process.env.NODE_ENV == "development" ? true : false;
+  waitForMintAddress.value = false;
 
   uri.value = route.currentRoute.value.params.document_id;
   getUserDocument(uri.value);

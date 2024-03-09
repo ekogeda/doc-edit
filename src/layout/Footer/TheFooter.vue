@@ -2,9 +2,9 @@
   <footer class="footer footer-static footer-light text-center custom-w">
     <p class="clearfix mb-0 ">
       <span class="float-md-center d-block d-md-inline-block mt-25">
-        COPYRIGHT &copy; {{ new Date().getFullYear() }}
-        <a class="ms-25" href="https://www.gettonote.com" target="_blank">ToNote Technologies Limited</a>
-        <span class=" d-sm-inline-block">, All rights Reserved.</span>
+        COPYRIGHT &copy; {{ new Date().getFullYear() }}.
+        <!-- <a class="ms-25" href="https://www.gettonote.com" target="_blank">ToNote Technologies Limited</a> -->
+        <span class=" d-sm-inline-block">All rights Reserved.</span>
       </span>
     </p>
   </footer>

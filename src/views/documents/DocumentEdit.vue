@@ -338,7 +338,7 @@
   <ModalComp :show="isDecline" :header="false" :footer="false" :size="'modal-sm'" @close="closCommentModal">
     <template #body>
       <div class="text-center py-2">
-        <img src="@/assets/logo.png" width="70" alt="Icon" class="img-fluid" />
+        <img src="https://skoutwatch.com/static/media/logo.1af99f8777344173aa7f.png" width="70" alt="Icon" class="img-fluid" />
 
         <h3 class="text-darker my-1">
           You've successfully {{ approveOrDecline }} the document
@@ -471,7 +471,7 @@
   <ModalComp :show="openComment" :header="false" :footer="false" :size="'modal-sm'" :closeBtn="false">
     <template #body>
       <div class="text-center py-2">
-        <img src="@/assets/logo.png" width="70" alt="Icon" class="img-fluid" />
+        <img src="https://skoutwatch.com/static/media/logo.1af99f8777344173aa7f.png" width="70" alt="Icon" class="img-fluid" />
 
         <h3 class="text-darker my-1">Thank you for letting us know</h3>
         <p>Your feedback will help us improve the quality of the service</p>

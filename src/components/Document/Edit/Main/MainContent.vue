@@ -108,14 +108,14 @@
 												</tr>
 											</table>
 
-											<div class="my-2">
+											<!-- <div class="my-2">
 												<h2>How to verify this document:</h2>
 												<p>
 													1. Visit wwww.gettonote.com/verify-document and type in the document id above in the search
 													panel Or.
 												</p>
 												<p>2. Scan the QR Code at the tale end using your mobile device.</p>
-											</div>
+											</div> -->
 										</div>
 									</div>
 								</template>

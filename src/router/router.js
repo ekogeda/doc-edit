@@ -50,7 +50,7 @@ const routes = [
     name: "Login",
     component: UserAuth,
     meta: {
-      title: "ToNote",
+      title: "SkoutWatch",
     },
   },
 
@@ -59,7 +59,7 @@ const routes = [
     name: "TestGround",
     component: TestGround,
     meta: {
-      title: "ToNote",
+      title: "SkoutWatch",
     },
   },
 
@@ -68,7 +68,7 @@ const routes = [
     name: "WebCam",
     component: WebCam,
     meta: {
-      title: "ToNote",
+      title: "SkoutWatch",
     },
   },
 
@@ -77,16 +77,16 @@ const routes = [
     name: "Dashboard",
     component: LandingPage,
     meta: {
-      title: "Documents | ToNote",
+      title: "Documents | SkoutWatch",
       requiresAuth: true,
       metaTags: [
         {
           name: "description",
-          content: "The document dashboard page of ToNote.",
+          content: "The document dashboard page of SkoutWatch.",
         },
         {
           property: "og:description",
-          content: "The document dashboard page of ToNote.",
+          content: "The document dashboard page of SkoutWatch.",
         },
       ],
     },
@@ -97,7 +97,7 @@ const routes = [
     name: "document-index",
     component: DocumentIndex,
     meta: {
-      title: "Documents - ToNote",
+      title: "Documents - SkoutWatch",
     },
     children: [
       {
@@ -108,7 +108,7 @@ const routes = [
           next({ name: "Dashboard" });
         },
         meta: {
-          title: "User | Document - ToNote",
+          title: "User | Document - SkoutWatch",
           requiresAuth: true,
         },
       },
@@ -117,15 +117,15 @@ const routes = [
         name: "document.audit",
         component: DocumentAuditTrail,
         meta: {
-          title: "Audit Trail | ToNote",
+          title: "Audit Trail | SkoutWatch",
           metaTags: [
             {
               name: "description",
-              content: "The audit trail page of ToNote.",
+              content: "The audit trail page of SkoutWatch.",
             },
             {
               property: "og:description",
-              content: "The audit trail page of ToNote.",
+              content: "The audit trail page of SkoutWatch.",
             },
           ],
         },
@@ -135,15 +135,15 @@ const routes = [
         name: "document.verify",
         component: DocumentUserVerify,
         meta: {
-          title: "Verification | ToNote",
+          title: "Verification | SkoutWatch",
           metaTags: [
             {
               name: "description",
-              content: "The verification page of ToNote.",
+              content: "The verification page of SkoutWatch.",
             },
             {
               property: "og:description",
-              content: "The verification page of ToNote.",
+              content: "The verification page of SkoutWatch.",
             },
           ],
         },
@@ -153,15 +153,15 @@ const routes = [
         name: "document.upload",
         component: DocumentUpload,
         meta: {
-          title: "Upload Document | ToNote",
+          title: "Upload Document | SkoutWatch",
           metaTags: [
             {
               name: "description",
-              content: "The document upload's page of ToNote.",
+              content: "The document upload's page of SkoutWatch.",
             },
             {
               property: "og:description",
-              content: "The document upload's page of ToNote.",
+              content: "The document upload's page of SkoutWatch.",
             },
           ],
         },
@@ -171,16 +171,16 @@ const routes = [
         name: "document.edit",
         component: DocumentEdit,
         meta: {
-          title: "Edit Document | ToNote",
+          title: "Edit Document | SkoutWatch",
           requiresAuth: true,
           metaTags: [
             {
               name: "description",
-              content: "The document edit page of ToNote.",
+              content: "The document edit page of SkoutWatch.",
             },
             {
               property: "og:description",
-              content: "The document edit page of ToNote.",
+              content: "The document edit page of SkoutWatch.",
             },
           ],
         },
@@ -193,15 +193,15 @@ const routes = [
     name: 'Error',
     component: () => import("@/components/DocNotFound.vue"),
     meta: {
-      title: "Error 404 | ToNote",
+      title: "Error 404 | SkoutWatch",
       metaTags: [
         {
           name: "description",
-          content: "The document not found page of ToNote.",
+          content: "The document not found page of SkoutWatch.",
         },
         {
           property: "og:description",
-          content: "The document not found page of ToNote.",
+          content: "The document not found page of SkoutWatch.",
         },
       ],
     },
@@ -211,15 +211,15 @@ const routes = [
     path: "/:catchAll(.*)",
     component: () => import("@/components/NotFound.vue"),
     meta: {
-      title: "Error 404 | ToNote",
+      title: "Error 404 | SkoutWatch",
       metaTags: [
         {
           name: "description",
-          content: "The error 404 page of ToNote.",
+          content: "The error 404 page of SkoutWatch.",
         },
         {
           property: "og:description",
-          content: "The error 404 page of ToNote.",
+          content: "The error 404 page of SkoutWatch.",
         },
       ],
     },
