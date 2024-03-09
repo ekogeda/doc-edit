@@ -10,20 +10,9 @@
             <div class="m-0">
               <PuSkeleton v-if="isDocLoading" width="140px" height="30px" />
               <template v-else>
-                <a
-                  v-if="hasNFT != '' || hasNFT != null"
-                  :href="`https://xray.helius.xyz/token/${hasNFT}?network=devnet`"
-                  class="btn btn-sm btn-primary me-1"
-                >
+                <button @click="checkNFT" class="btn btn-sm btn-primary me-1">
                   Scan NFT &rarr;
-                </a>
-                <router-link
-                  v-else
-                  :to="{ name: 'document.upload' }"
-                  class="btn btn-sm btn-secondary me-1"
-                >
-                  &larr; Go back
-                </router-link>
+                </button>
               </template>
             </div>
             <div class="d-action">
@@ -60,21 +49,21 @@
                   class="user-details d-flex justify-content-between align-items-center flex-wrap"
                 >
                   <div class="mail-items">
-                    <h5
+                    <p
                       class="text-capitalize mb-0"
                       :style="{ fontSize: type == 'xs' ? '10px' : '' }"
                     >
                       <PuSkeleton v-if="isDocLoading" width="120px" height="20px" />
                       <template v-else> Document ID: {{ theDoc.id }} </template>
-                    </h5>
-                    <h5
+                    </p>
+                    <p
                       class="text-capitalize mb-0"
                       :style="{ fontSize: type == 'xs' ? '10px' : '' }"
                     >
                       <PuSkeleton v-if="isDocLoading" width="120px" height="20px" />
                       <template v-else> Title: {{ theDoc.title }} </template>
-                    </h5>
-                    <h5
+                    </p>
+                    <p
                       class="text-capitalize mb-0"
                       :style="{ fontSize: type == 'xs' ? '10px' : '' }"
                     >
@@ -92,16 +81,21 @@
                           }}
                         </span>
                       </template>
-                    </h5>
-                    <h5
-                      class="text-capitalize mb-0"
+                    </p>
+                    <p
+                      class="text-capitalize"
                       :style="{ fontSize: type == 'xs' ? '10px' : '' }"
                     >
                       <PuSkeleton v-if="isDocLoading" width="120px" height="20px" />
                       <template v-else>
                         Create at: {{ createdAt(theDoc.created_at) }}
                       </template>
-                    </h5>
+                    </p>
+
+                    <!-- <div class="alert alert-danger p-1">
+                      The NFT Information of the document is still in process. Please try
+                      again in a minute.
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -117,7 +111,10 @@
             </div>
           </div>
 
-          <div v-if="userDocument.entry_point == 'Docs'" class="col-lg-4">
+          <div
+            v-if="!isDocLoading && userDocument.entry_point == 'Docs'"
+            class="col-lg-4"
+          >
             <div class="card scrollable">
               <div class="card-header">
                 <h4 class="card-title">Audit Trail</h4>
@@ -219,7 +216,8 @@ const { type } = useBreakpointsComposable();
 
 const route = useRouter();
 
-const { userDocument, documentAuditTrail, isDocLoading } = useGetters({
+const { token, userDocument, documentAuditTrail, isDocLoading } = useGetters({
+  token: "auth/token",
   userDocument: "document/userDocument",
   documentAuditTrail: "document/documentAuditTrail",
   isDocLoading: "document/isDocLoading",
@@ -240,20 +238,24 @@ const theDoc = ref("");
 
 const audited = ref([]);
 const audit = computed(() => {
-  let audit = documentAuditTrail.value.filter((str) => {
-    const longName = str.log_name.split(" ", 2);
-    for (let i = 0; i < longName.length; i++) {
-      longName[i] = longName[i].charAt(0).toUpperCase() + longName[i].slice(1);
-      const participantName = longName.join(" ");
+  let audit;
+  if (!isDocLoading.value) {
+    audit = documentAuditTrail.value?.filter((str) => {
+      const longName = str.log_name.split(" ", 2);
+      for (let i = 0; i < longName.length; i++) {
+        longName[i] = longName[i].charAt(0).toUpperCase() + longName[i].slice(1);
+        const participantName = longName.join(" ");
 
-      const auditObj = {
-        full_name: participantName,
-        signed_date: createdAt(str.created_at),
-        added_text: str.log_name,
-      };
-      return audited.value.push(auditObj);
-    }
-  });
+        const auditObj = {
+          full_name: participantName,
+          signed_date: createdAt(str.created_at),
+          added_text: str.log_name,
+        };
+        return audited.value.push(auditObj);
+      }
+    });
+  }
+
   return audit;
 });
 
@@ -261,7 +263,7 @@ const sortedFile = computed(() => {
   return userDocument.value.completed_file_request;
 });
 
-const hasNFT = ref("");
+const hasNFT = ref(null);
 
 watch(
   () => [userDocument.value, isDocLoading.value],
@@ -274,6 +276,42 @@ watch(
     if (newDocLoaded != oldDocLoaded) allLoaded.value = newDocLoaded;
   }
 );
+
+const checkNFT = () => {
+  // /api/v1/document-nft-metadata/{id}
+  fetchDocumentNFTMetadata(userDocument.value.id);
+};
+
+const mintAddress = ref(null);
+async function fetchDocumentNFTMetadata(id) {
+  try {
+    const response = await fetch(
+      `${process.env.VUE_APP_API_LIVE}document-nft-metadata/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+          // Add any other headers if needed
+        },
+      }
+    );
+
+    if (!response.ok) {
+      mintAddress.value = null;
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    mintAddress.value = data.mintAddress;
+    console.log(data.mintAddress);
+
+    // Open the URL in a new tab
+    window.open(`https://xray.helius.xyz/token/${mintAddress.value}?network=devnet`, '_blank');
+
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 
 const confirmEdit = () => {
   loading.value = true;
